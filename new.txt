@@ -1,0 +1,201 @@
+﻿XML FILE
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:id="@+id/text"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   tools:context=".MainActivity">
+
+
+   <TextView
+       android:id="@+id/textView"
+       android:layout_width="189dp"
+       android:layout_height="48dp"
+       android:text="Media Player"
+       android:textSize="30dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.12" />
+
+
+   <Button
+       android:id="@+id/play"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="PLAY"
+       android:textSize="30dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.498"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.256" />
+
+
+   <Button
+       android:id="@+id/pause"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="PAUSE"
+       android:textSize="30dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.385" />
+
+
+   <Button
+       android:id="@+id/forward"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="FORWARD"
+       android:textSize="30dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.511"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.499" />
+
+
+   <Button
+       android:id="@+id/rewind"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="REWIND"
+       android:textSize="30dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.645" />
+
+
+   <Button
+       android:id="@+id/stop"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="STOP"
+       android:textSize="30dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.783" />
+
+
+   <Button
+       android:id="@+id/restart"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="RESTART"
+       android:textSize="30dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.521"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.907" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+JAVA
+
+
+
+
+Button play, forward, rewind, pause, stop, restart;
+   int startTime = 0;
+   int endTime = 0;
+   int forwardTime = 5000;
+   int backwardTime = 5000;
+   MediaPlayer media ,newMedia;
+
+
+
+
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+       media = MediaPlayer.create(this,R.raw.first);
+       newMedia = MediaPlayer.create(this,R.raw.first);
+       play = findViewById(R.id.play);
+       pause = findViewById(R.id.pause);
+       forward = findViewById(R.id.forward);
+       rewind = findViewById(R.id.rewind);
+       stop = findViewById(R.id.stop);
+       restart = findViewById(R.id.restart);
+       play.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               media.start();
+               Toast.makeText(MainActivity.this, "Playing Music", Toast.LENGTH_SHORT).show();
+           }
+       });
+       pause.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               media.pause();
+               Toast.makeText(MainActivity.this, "Music Paused", Toast.LENGTH_SHORT).show();
+           }
+       });
+       stop.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Toast.makeText(MainActivity.this, "Music Stopped", Toast.LENGTH_SHORT).show();
+               media.stop();
+               media = newMedia;
+           }
+       });
+       restart.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               media.seekTo(0);
+               media.start();
+               Toast.makeText(MainActivity.this, "Restarting Music", Toast.LENGTH_SHORT).show();
+           }
+       });
+       forward.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               int cur = media.getCurrentPosition();
+
+
+               if(cur+forwardTime <= media.getDuration())
+                   media.seekTo(cur+forwardTime);
+               Toast.makeText(MainActivity.this, "Music Forwarded", Toast.LENGTH_SHORT).show();
+           }
+       });
+       rewind.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               int cur = media.getCurrentPosition();
+
+
+               if(cur-backwardTime >= 0)
+                   media.seekTo(cur-backwardTime);
+               Toast.makeText(MainActivity.this, "Music Rewinded", Toast.LENGTH_SHORT).show();
+           }
+       });
+   }
+}
